@@ -18,7 +18,9 @@ BEgin:;
     }
     else
         {
+            system("cls");
         std::cout << "wrong,plz choose a language.//´íÎó£¬ÇëÖØÐÂÑ¡ÔñÓïÑÔ\n";
+        
         goto BEgin;
     }
     std::string qualify;
