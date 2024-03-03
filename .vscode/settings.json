@@ -47,5 +47,6 @@
         "streambuf": "cpp",
         "thread": "cpp",
         "typeinfo": "cpp"
-    }
+    },
+    "files.encoding": "gb2312"
 }

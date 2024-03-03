@@ -1,4 +1,3 @@
-#include<iostream>
 void addcard(){
 
 }
@@ -14,9 +13,9 @@ void addmoney(){
 void removemoney(){
     
 }
-void checkhistory(){//æŸ¥æ¶ˆè´¹å†å²
+void checkhistory(){//²éÏû·ÑÀúÊ·
 
 }
-void checkmoney(){//æŸ¥ä½™é¢
+void checkmoney(){//²éÓà¶î
 
-}
+} 
