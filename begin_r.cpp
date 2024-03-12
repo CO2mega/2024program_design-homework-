@@ -1,7 +1,6 @@
-#include<iostream>
-#include"mainmenu.h"
+#include<bits/stdc++.h>
+#include"mainmenu.c"
 using namespace std;
-
 int main(){
     
     string lang;
@@ -13,7 +12,7 @@ int main(){
         std::cout << "not ready,choose another language,plz?\n";
         goto BEgin;
     }
-    else if (lang == "简体中文")
+    else if (lang == "简体中文"||lang=="chinese")
     {
         
     }
