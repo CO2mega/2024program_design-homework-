@@ -1,18 +1,18 @@
-
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
 using namespace std;
-struct Card{
+struct Card
+{
     char aName[20];
     char aPwd[20];
-    int nStatus=0; // 0Î´ÉÏ»ú1ÉÏ»ú  2ÒÑ×¢Ïú3Ê§Ğ§£¨£¿£©
+    int nStatus = 0; // 0æœªä¸Šæœº1ä¸Šæœº  2å·²æ³¨é”€3å¤±æ•ˆï¼ˆï¼Ÿï¼‰
     time_t tStart, tEnd;
-    float fTotaluse=0; // ÀÛ¼Æ½ğ¶î
-    float nowmoney=0;  // µ±Ç°Óà¶î
+    float fTotaluse = 0; // ç´¯è®¡é‡‘é¢
+    float nowmoney = 0;  // å½“å‰ä½™é¢
     time_t tlast;
-    int nUseCount=0;
-    float fBalance=0;
-    int nDel=0;
-     void clear()
+    int nUseCount = 0;
+    float fBalance = 0;
+    int nDel = 0;
+    void clear()
     {
         memset(aName, 0, sizeof(aName));
         memset(aPwd, 0, sizeof(aPwd));
@@ -24,19 +24,20 @@ struct Card{
         nUseCount = 0;
         fBalance = 0;
         nDel = 0;
-    } 
-}opcard;
-vector<Card> cards;
-int login()//²»¼±£¬ÏÈĞ´ÍêadminÔÙËµ
+    }
+};
+Card opcard;
+extern vector<Card> cards;
+int login() // ä¸æ€¥ï¼Œå…ˆå†™å®Œadminå†è¯´
 /* {
-    cout << "ÇëÊäÈëÓÃ»§Ãû£º";
+    cout << "è¯·è¾“å…¥ç”¨æˆ·åï¼š";
     cin >> opcard.aName;
-    cout << "ÇëÊäÈëÃÜÂë£º";
+    cout << "è¯·è¾“å…¥å¯†ç ï¼š";
     cin >> opcard.aPwd;
     if ((find(cards.begin(), cards.end(), [](const Card &s)
               { return s.aName == opcard.aName && s.aPwd == opcard.aPwd; })) == cards.end())
     {
-        cout << "ÓÃ»§Ãû»òÃÜÂë´íÎó\n";
+        cout << "ç”¨æˆ·åæˆ–å¯†ç é”™è¯¯\n";
         system("pause");
         return 0;
     }
@@ -44,88 +45,100 @@ int login()//²»¼±£¬ÏÈĞ´ÍêadminÔÙËµ
 } */
 {
 
-    cout << "ÇëÊäÈëÓÃ»§Ãû£º";
+    cout << "è¯·è¾“å…¥ç”¨æˆ·åï¼š";
     cin >> opcard.aName;
 #ifdef USER
 #endif
 }
+
 void logout()
 {
     opcard.clear();
 }
+
 void addcard()
 {
-    cout << "ÇëÊäÈëÓÃ»§Ãû£º";
+    cout << "è¯·è¾“å…¥ç”¨æˆ·åï¼š";
     cin >> opcard.aName;
-    cout << "ÇëÊäÈëÃÜÂë£º";
+    cout << "è¯·è¾“å…¥å¯†ç ï¼š";
     cin >> opcard.aPwd;
-#ifndef USER // ÓÃ»§Ä¬ÈÏÎª0Ôª£¬¹ÜÀíÔ±¿ÉÒÔ×Ô¶¨Òå
-    cout << "ÇëÊäÈë½ğ¶î£º";
+#ifndef USER // ç”¨æˆ·é»˜è®¤ä¸º0å…ƒï¼Œç®¡ç†å‘˜å¯ä»¥è‡ªå®šä¹‰
+    cout << "è¯·è¾“å…¥é‡‘é¢ï¼š";
     cin >> opcard.nowmoney;
-#else opcard.nowmoney = 0;
+#else
+    opcard.nowmoney = 0;
 #endif
     cards.push_back(opcard);
-    cout << "Ìí¼Ó³É¹¦\n";
-    auto it=cards.end()-1;
-    cout << "µ±Ç°Óà¶î£º" << it->nowmoney << endl;
-        cout << "×´Ì¬£º" << it->nStatus << endl;
-        cout << "¿ªÊ¼Ê±¼ä£º" << it->tStart << endl;
-        cout << "½áÊøÊ±¼ä£º" << it->tEnd << endl;
-        cout << "ÀÛ¼Æ½ğ¶î£º" << it->fTotaluse << endl;
-        cout << "ÉÏ´ÎÊ¹ÓÃÊ±¼ä£º" << it->tlast << endl;
-        cout << "Ê¹ÓÃ´ÎÊı£º" << it->nUseCount << endl;
-        cout << "Óà¶î£º" << it->fBalance << endl;
-        cout << "ÊÇ·ñ×¢Ïú£º" << it->nDel << endl;
+    cout << "æ·»åŠ æˆåŠŸ\n";
+    auto it = cards.end() - 1;
+    cout << "å½“å‰ä½™é¢ï¼š" << it->nowmoney << endl;
+    cout << "çŠ¶æ€ï¼š" << it->nStatus << endl;
+    cout << "å¼€å§‹æ—¶é—´ï¼š" << it->tStart << endl;
+    cout << "ç»“æŸæ—¶é—´ï¼š" << it->tEnd << endl;
+    cout << "ç´¯è®¡é‡‘é¢ï¼š" << it->fTotaluse << endl;
+    cout << "ä¸Šæ¬¡ä½¿ç”¨æ—¶é—´ï¼š" << it->tlast << endl;
+    cout << "ä½¿ç”¨æ¬¡æ•°ï¼š" << it->nUseCount << endl;
+    cout << "ä½™é¢ï¼š" << it->fBalance << endl;
+    cout << "æ˜¯å¦æ³¨é”€ï¼š" << it->nDel << endl;
     system("pause");
 }
 void removecard()
 {
 }
 void checkcard()
-{kahao2:;
-if(cards.size()==0){cout<<"ÎŞ¿¨ĞÅÏ¢\n";system("pause");return ;}
-    cout << "ÇëÊäÈëÓÃ»§Ãû£º";
+{
+kahao2:;
+    if (cards.size() == 0)
+    {
+        cout << "æ— å¡ä¿¡æ¯\n";
+        system("pause");
+        return;
+    }
+    cout << "è¯·è¾“å…¥ç”¨æˆ·åï¼š";
     cin >> opcard.aName;
-   // cout << "ÇëÊäÈëÃÜÂë£º";
-    //cin >> opcard.aPwd;
-    
-    auto it=find_if(cards.begin(), cards.end(), [](const Card &s)
-              { return s.aName == opcard.aName ; });
-    if (it == cards.end()+1){
-        cout << "ÓÃ»§Ãû»òÃÜÂë´íÎó\n";goto kahao2;
-              }
+    // cout << "è¯·è¾“å…¥å¯†ç ï¼š";
+    // cin >> opcard.aPwd;
+
+    auto it = find_if(cards.begin(), cards.end(), [](const Card &s)
+                      { return s.aName == opcard.aName; });
+    if (it == cards.end() + 1)
+    {
+        cout << "ç”¨æˆ·åæˆ–å¯†ç é”™è¯¯\n";
+        goto kahao2;
+    }
     else
-    {it--;
-       // cout << "ÓÃ»§Ãû£º" << it->aName << endl;
-       // cout << "ÃÜÂë£º" << it->aPwd << endl;
-        cout << "µ±Ç°Óà¶î£º" << it->nowmoney << endl;
-        cout << "×´Ì¬£º" << it->nStatus << endl;
-        cout << "¿ªÊ¼Ê±¼ä£º" << it->tStart << endl;
-        cout << "½áÊøÊ±¼ä£º" << it->tEnd << endl;
-        cout << "ÀÛ¼Æ½ğ¶î£º" << it->fTotaluse << endl;
-        cout << "ÉÏ´ÎÊ¹ÓÃÊ±¼ä£º" << it->tlast << endl;
-        cout << "Ê¹ÓÃ´ÎÊı£º" << it->nUseCount << endl;
-        cout << "Óà¶î£º" << it->fBalance << endl;
-        cout << "ÊÇ·ñ×¢Ïú£º" << it->nDel << endl;
+    {
+        it--;
+        // cout << "ç”¨æˆ·åï¼š" << it->aName << endl;
+        // cout << "å¯†ç ï¼š" << it->aPwd << endl;
+        cout << "å½“å‰ä½™é¢ï¼š" << it->nowmoney << endl;
+        cout << "çŠ¶æ€ï¼š" << it->nStatus << endl;
+        cout << "å¼€å§‹æ—¶é—´ï¼š" << it->tStart << endl;
+        cout << "ç»“æŸæ—¶é—´ï¼š" << it->tEnd << endl;
+        cout << "ç´¯è®¡é‡‘é¢ï¼š" << it->fTotaluse << endl;
+        cout << "ä¸Šæ¬¡ä½¿ç”¨æ—¶é—´ï¼š" << it->tlast << endl;
+        cout << "ä½¿ç”¨æ¬¡æ•°ï¼š" << it->nUseCount << endl;
+        cout << "ä½™é¢ï¼š" << it->fBalance << endl;
+        cout << "æ˜¯å¦æ³¨é”€ï¼š" << it->nDel << endl;
     }
     system("pause");
 }
 void editmoney(int a)
-{ // 1Îª³äÖµ/Ïû·Ñ£¬2ÎªÍË·Ñ
+{ // 1ä¸ºå……å€¼/æ¶ˆè´¹ï¼Œ2ä¸ºé€€è´¹
 kahao:;
-    cout << "ÇëÊäÈëÓÃ»§Ãû£º";
+    cout << "è¯·è¾“å…¥ç”¨æˆ·åï¼š";
     cin >> opcard.aName;
-    cout << "ÇëÊäÈëÃÜÂë£º";
+    cout << "è¯·è¾“å…¥å¯†ç ï¼š";
     cin >> opcard.aPwd;
-    auto it=find_if(cards.begin(), cards.end(), [](const Card &s)
-              { return s.aName == opcard.aName && s.aPwd == opcard.aPwd; });
-    //if (it == cards.end()+1){
-      //  cout << "ÓÃ»§Ãû»òÃÜÂë´íÎó\n";goto kahao;
-        //      }
+    auto it = find_if(cards.begin(), cards.end(), [](const Card &s)
+                      { return s.aName == opcard.aName && s.aPwd == opcard.aPwd; });
+    // if (it == cards.end()+1){
+    //   cout << "ç”¨æˆ·åæˆ–å¯†ç é”™è¯¯\n";goto kahao;
+    //       }
 }
 void checkhistory()
-{ // ²éÏû·ÑÀúÊ·
+{ // æŸ¥æ¶ˆè´¹å†å²
 }
 void checkmoney()
-{ // ²éÓà¶î
+{ // æŸ¥ä½™é¢
 }

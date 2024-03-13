@@ -1,17 +1,17 @@
-
+#include<bits/stdc++.h>
 #include "admin.h"
 using namespace std;
-/* struct Card
+/*struct Card
 {
     char aName[20];
     char aPwd[20];
-    int nStatus; // 0Î´ÉÏ»ú1ÉÏ»ú  2ÒÑ×¢Ïú3Ê§Ğ§£¨£¿£©
+    int nStatus; // 0æœªä¸Šæœº1ä¸Šæœº  2å·²æ³¨é”€3å¤±æ•ˆï¼ˆï¼Ÿï¼‰
     time_t tStart, tEnd;
-    float fTotaluse; // ÀÛ¼Æ½ğ¶î
+    float fTotaluse; // ç´¯è®¡é‡‘é¢
     time_t tlast;
     int nUseCount;
     float fBalance;
-    float nowmoney; // µ±Ç°Óà¶î
+    float nowmoney; // å½“å‰ä½™é¢
     int nDel;
     void clear()
     {
@@ -27,26 +27,27 @@ using namespace std;
         nDel = 0;
     }
 }; */
-void admin()
-{ // ¹ÜÀíÔ±²Ëµ¥
 
-    string choice; // Ñ¡Ôñ
+void admin()
+{ // ç®¡ç†å‘˜èœå•
+
+    string choice; // é€‰æ‹©
     while (1)
     {
         system("cls");
-        // ²é¿¨ÊÇÊ²Ã´£¿²éË­ÄÃÄÄÕÅ¿¨Âğ£¿
+        // æŸ¥å¡æ˜¯ä»€ä¹ˆï¼ŸæŸ¥è°æ‹¿å“ªå¼ å¡å—ï¼Ÿ
 
-        cout << "---------------------------\n1.Ìí¼Ó¿¨\n2.²éÑ¯¿¨\n3.³äÖµ\n4.²éÑ¯Ïû·Ñ¼ÇÂ¼\n5.ÍË·Ñ\n6.²éÑ¯Í³¼Æ\n7.×¢Ïú¿¨\n0.ÍË³ö\n---------------------------\n";
-        cout << "ÇëÊäÈëÄãÑ¡ÔñµÄĞòºÅ£º\n";
+        cout << "---------------------------\n1.æ·»åŠ å¡\n2.æŸ¥è¯¢å¡\n3.å……å€¼\n4.æŸ¥è¯¢æ¶ˆè´¹è®°å½•\n5.é€€è´¹\n6.æŸ¥è¯¢ç»Ÿè®¡\n7.æ³¨é”€å¡\n0.é€€å‡º\n---------------------------\n";
+        cout << "è¯·è¾“å…¥ä½ é€‰æ‹©çš„åºå·ï¼š\n";
         cin >> choice;
         if (choice.length() > 1)
         {
-            cout << "ÊäÈë´íÎó£¬\n";
+            cout << "è¾“å…¥é”™è¯¯ï¼Œ\n";
             system("pause");
             continue;
         }
-        // if(!login()){system("cls");cout<<"ÇëÖØÊÔ\n";}
-        // ¹ÜÀíÔ±²»ÓÃ¹ÜÃÜÂë£¬¿ÉÒÔÖ±½Ó²Ù×÷¿¨
+        // if(!login()){system("cls");cout<<"è¯·é‡è¯•\n";}
+        // ç®¡ç†å‘˜ä¸ç”¨ç®¡å¯†ç ï¼Œå¯ä»¥ç›´æ¥æ“ä½œå¡
         switch (choice[0])
         {
         case '1':
@@ -56,13 +57,13 @@ void admin()
             checkcard();
             break;
         case '3':
-            editmoney(1);
+            editmoney(1);//1åŠ é’±
             break;
         case '4':
             checkhistory();
             break;
         case '5':
-            editmoney(2);
+            editmoney(2);//2æ‰£é’±
             break;
         case '6':
             checkhistory();
@@ -74,29 +75,29 @@ void admin()
             goto adminEnd;
             break;
         default:
-            cout << "ÊäÈë´íÎó£¬\n";
+            cout << "è¾“å…¥é”™è¯¯ï¼Œ\n";
             system("pause");
         }
     }
 adminEnd:;
-    cout << "¹ÜÀíÔ±,»¶Ó­ÔÙ´ÎÊ¹ÓÃ";
+    cout << "ç®¡ç†å‘˜,æ¬¢è¿å†æ¬¡ä½¿ç”¨";
     system("pause");
 
     return;
 }
 void user()
-{ // ÓÃ»§²Ëµ¥
+{ // ç”¨æˆ·èœå•
 #define USER USER
     string choice;
     while (1)
     {
         system("cls");
-        cout << "---------------------------\n1.ÉÏ»ú\n2.ÏÂ»ú\n3.²éÑ¯¿¨\n4.³äÖµ\n5.²éÑ¯Ïû·Ñ¼ÇÂ¼\n6.²éÑ¯Í³¼Æ\n7.×¢Ïú¿¨\n0.ÍË³ö\n---------------------------\n";
-        cout << "ÇëÊäÈëÄãÑ¡ÔñµÄĞòºÅ£º\n";
+        cout << "---------------------------\n1.ä¸Šæœº\n2.ä¸‹æœº\n3.æŸ¥è¯¢å¡\n4.å……å€¼\n5.æŸ¥è¯¢æ¶ˆè´¹è®°å½•\n6.æŸ¥è¯¢ç»Ÿè®¡\n7.æ³¨é”€å¡\n0.é€€å‡º\n---------------------------\n";
+        cout << "è¯·è¾“å…¥ä½ é€‰æ‹©çš„åºå·ï¼š\n";
         cin >> choice;
         if (choice.length() > 1)
         {
-            cout << "ÊäÈë´íÎó£¬\n";
+            cout << "è¾“å…¥é”™è¯¯ï¼Œ\n";
             system("pause");
             continue;
         }
@@ -127,35 +128,36 @@ void user()
             goto userEnd;
             break;
         default:
-            cout << "ÊäÈë´íÎó£¬\n";
+            cout << "è¾“å…¥é”™è¯¯ï¼Œ\n";
             system("pause");
             // break;
         }
     }
 userEnd:;
-    cout << "»¶Ó­ÔÙ´ÎÊ¹ÓÃ\n";
+    cout << "æ¬¢è¿å†æ¬¡ä½¿ç”¨\n";
     system("pause");
 #undef USER
     return;
 }
 void secure(string op)
-{
-    if (op == "ÓÃ»§" || op == "1")
+{adminbegin:;
+    if (op == "ç”¨æˆ·" || op == "1")
     {
-        cout << "»¶Ó­½øÈë¼Æ·Ñ¹ÜÀíÏµÍ³";
+        cout << "æ¬¢è¿è¿›å…¥è®¡è´¹ç®¡ç†ç³»ç»Ÿ";
         user();
     }
-    else if (op == "¹ÜÀí" || op == "2")
+    else if (op == "ç®¡ç†" || op == "2")
     {
-        cout << "ÇëÊäÈëÃÜÂë£º\n";
-        string passwd;
+        cout << "è¯·è¾“å…¥å¯†ç ï¼š\n";
+        string passwd,stdps="114514";
         cin >> passwd;
-        if (passwd == "114514")
-            cout << "»¶Ó­½øÈëºóÌ¨¹ÜÀíÏµÍ³\n";
+        if (passwd ==stdps)
+            cout << "æ¬¢è¿è¿›å…¥åå°ç®¡ç†ç³»ç»Ÿ\n";
         admin();
     }
     else
     {
-        cout << "wrong";
+        cout << "å¯†ç é”™è¯¯";
+        goto adminbegin;
     }
 }

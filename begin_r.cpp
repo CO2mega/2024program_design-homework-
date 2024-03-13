@@ -1,31 +1,114 @@
-#include<bits/stdc++.h>
-#include"mainmenu.c"
+#include <bits/stdc++.h>
+#include "mainmenu.c"
 using namespace std;
-int main(){
+// void read();
+// void write();
+vector<Card> cards;
+int main()
+{cout<<"hello";
+    freopen("database.txt", "w", stdout);
+    cout << 0;
+
+
     
+   // fclose(stdout);
+   system("pause");
+  /*  cout << 114;
+    // read();
+    time_t timep;
+    struct tm *p;
+    time(&timep);
+    p = localtime(&timep);
+
+    printf("ÂΩìÂâçÊó∂Èó¥%d/%d/%d %02d:%02d:%02d\n", 1900 + p->tm_year, 1 + p->tm_mon, p->tm_mday, p->tm_hour, p->tm_min, p->tm_sec);
+    freopen("database.txt", "r", stdin);
+    int n;
+    cin >> n;
+    cout << n;
+    for (int i = 0; i < n; i++)
+    {
+        Card temp;
+        cin >> temp.aName >> temp.aPwd >> temp.nStatus >> temp.tStart >> temp.tEnd >> temp.fTotaluse >> temp.tlast >> temp.nUseCount >> temp.fBalance >> temp.nowmoney >> temp.nDel;
+        cards.push_back(temp);
+    }
+    if (n != 0)
+        cin >> p->tm_year >> p->tm_mon >> p->tm_mday >> p->tm_hour >> p->tm_min >> p->tm_sec;
+    fclose(stdin);
+    if (n != 0)
+        cout << "‰∏äÊ¨°‰øùÂ≠òÊó∂Èó¥Ôºö" << p->tm_year << "/" << p->tm_mon << "/" << p->tm_mday << " " << p->tm_hour << ":" << p->tm_min << ":" << p->tm_sec << endl;
+    system("pause");
+ */
+
+
     string lang;
-    BEgin:;
-    cout<<"«Î—°‘Òƒ„µƒ”Ô—‘£∫\nEnglish\nºÚÃÂ÷–Œƒ\n";
-    cin>>lang;
-    if (lang == "English"||lang=="english")
+BEgin:;
+    cout << "ËØ∑ÈÄâÊã©‰Ω†ÁöÑËØ≠Ë®ÄÔºö\nEnglish\nÁÆÄ‰Ωì‰∏≠Êñá\n";
+    cin >> lang;
+    if (lang == "English" || lang == "english")
     {
         std::cout << "not ready,choose another language,plz?\n";
         goto BEgin;
     }
-    else if (lang == "ºÚÃÂ÷–Œƒ"||lang=="chinese")
+    else if (lang == "ÁÆÄ‰Ωì‰∏≠Êñá" || lang == "chinese")
     {
-        
     }
     else
-        {
-            system("cls");
-        cout << "wrong,plz choose a language.//¥ÌŒÛ£¨«Î÷ÿ–¬—°‘Ò”Ô—‘\n";
-        
+    {
+        system("cls");
+        cout << "wrong,plz choose a language.//ÈîôËØØÔºåËØ∑ÈáçÊñ∞ÈÄâÊã©ËØ≠Ë®Ä\n";
+
         goto BEgin;
     }
     string permis;
-    cout<<"«Î ‰»Îƒ„µƒ…Ì∑›:1.”√ªß 2.π‹¿Ì\n";
-    cin>>permis;
-    secure(permis);//º””Ô—‘÷÷¿‡
+    cout << "ËØ∑ËæìÂÖ•‰Ω†ÁöÑË∫´‰ªΩ:1.Áî®Êà∑ 2.ÁÆ°ÁêÜ\n";
+    cin >> permis;
+    secure(permis); // Âä†ËØ≠Ë®ÄÁßçÁ±ª
+    // write();
     return 0;
 }
+/* void read()
+{
+    time_t timep;
+    struct tm *p;
+    time(&timep);
+    p = localtime(&timep);
+
+    printf("ÂΩìÂâçÊó∂Èó¥%d/%d/%d %02d:%02d:%02d\n", 1900 + p->tm_year, 1 + p->tm_mon, p->tm_mday, p->tm_hour, p->tm_min, p->tm_sec);
+    freopen("database.txt", "r", stdin);
+    int n;
+    cin >> n;
+    cout << n;
+    if (n == 0)
+        return;
+    for (int i = 0; i < n; i++)
+    {
+        Card temp;
+        cin >> temp.aName >> temp.aPwd >> temp.nStatus >> temp.tStart >> temp.tEnd >> temp.fTotaluse >> temp.tlast >> temp.nUseCount >> temp.fBalance >> temp.nowmoney >> temp.nDel;
+        cards.push_back(temp);
+    }
+    if (n != 0)
+        cin >> p->tm_year >> p->tm_mon >> p->tm_mday >> p->tm_hour >> p->tm_min >> p->tm_sec;
+    fclose(stdin);
+    if (n != 0)
+        cout << "‰∏äÊ¨°‰øùÂ≠òÊó∂Èó¥Ôºö" << p->tm_year << "/" << p->tm_mon << "/" << p->tm_mday << " " << p->tm_hour << ":" << p->tm_min << ":" << p->tm_sec << endl;
+}
+void write()
+{
+    cout << "Ê≠£Âú®‰øùÂ≠òÔºåËØ∑Á®çÂêé";
+    freopen("database.txt", "w", stdout);
+    cout << cards.size() << endl;
+    for (auto it : cards)
+    {
+        cout << it.aName << ' ' << it.aPwd << ' ' << it.nStatus << ' ' << it.tStart << ' ' << it.tEnd << ' ' << it.fTotaluse << ' ' << it.tlast << ' ' << it.nUseCount << ' ' << it.fBalance << ' ' << it.nowmoney << ' ' << it.nDel << endl;
+    }
+
+    time_t timep;
+    struct tm *p;
+    time(&timep);          // Ëé∑Âèñ‰ªé1970Ëá≥‰ªäËøá‰∫ÜÂ§öÂ∞ëÁßíÔºåÂ≠òÂÖ•time_tÁ±ªÂûãÁöÑtimep
+    p = localtime(&timep); // Áî®localtimeÂ∞ÜÁßíÊï∞ËΩ¨Âåñ‰∏∫struct tmÁªìÊûÑ‰Ωì
+
+    printf("%d/%d/%d %02d:%02d:%02d\n", 1900 + p->tm_year, 1 + p->tm_mon, p->tm_mday, p->tm_hour, p->tm_min, p->tm_sec);
+
+    fclose(stdout);
+    printf("‰øùÂ≠òÊó∂Èó¥%d/%d/%d %02d:%02d:%02d\n", 1900 + p->tm_year, 1 + p->tm_mon, p->tm_mday, p->tm_hour, p->tm_min, p->tm_sec);
+} */
