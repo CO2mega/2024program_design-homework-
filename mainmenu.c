@@ -10,8 +10,7 @@ using namespace std;
     float fTotaluse; // 累计金额
     time_t tlast;
     int nUseCount;
-    float fBalance;
-    float nowmoney; // 当前余额
+    float fBalance; // 当前余额
     int nDel;
     void clear()
     {
