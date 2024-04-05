@@ -1,6 +1,6 @@
 #include<iostream>
 using namespace std;
-#include".\timetest.h"
+#include"./timetool.h"
 int main(){
     char t[100];
     timetostr(time(NULL),t);

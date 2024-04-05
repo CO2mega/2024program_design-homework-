@@ -50,22 +50,22 @@ void admin()
         switch (choice[0])
         {
         case '1':
-            addcard(0);
+            addcard();
             break;
         case '2':
-            checkcard(0);
+            checkcard();
             break;
         case '3':
-            editmoney(1,0);//1加钱
+            editmoney(1);//1加钱
             break;
         case '4':
-            checkhistory(0);
+            checkhistory();
             break;
         case '5':
-            editmoney(2,0);//2扣钱
+            editmoney(2);//2扣钱
             break;
         case '6':
-            //checkhistory();
+            checkhistory();
             break;
         case '7':
             removecard();
@@ -86,14 +86,14 @@ adminEnd:;
 }
 void user()
 { // 用户菜单
+#define USER USER
     string choice;
     while (1)
     {
         system("cls");
-        cout << "---------------------------\n1.上机\n2.下机\n3.查询卡\n4.充值\n5.查询消费记录\n6.查询统计\n7.注销卡\n8.新建卡\n0.退出\n---------------------------\n";
+        cout << "---------------------------\n1.上机\n2.下机\n3.查询卡\n4.充值\n5.查询消费记录\n6.查询统计\n7.注销卡\n0.退出\n---------------------------\n";
         cout << "请输入你选择的序号：\n";
-        cin.clear();
-        cin>>choice;
+        cin >> choice;
         if (choice.length() > 1)
         {
             cout << "输入错误，\n";
@@ -106,13 +106,13 @@ void user()
             login();
             break;
         case '2':
-            logout();
+
             break;
         case '3':
-            checkcard(1);
+
             break;
         case '4':
-            editmoney(1,1);
+
             break;
         case '5':
 
@@ -122,9 +122,6 @@ void user()
             break;
         case '7':
 
-            break;
-        case '8':
-            addcard(1);
             break;
         case '0':
             goto userEnd;
@@ -153,7 +150,7 @@ void secure(string op)
         cout << "请输入密码：\n";
         string passwd,stdps="114514";
         cin >> passwd;
-        if (passwd==stdps)
+        if (passwd ==stdps)
             cout << "欢迎进入后台管理系统\n";
         admin();
     }

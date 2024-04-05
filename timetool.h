@@ -1,10 +1,11 @@
 #include<iostream>
-#include<time.h>
-void timetostr(time_t t,char *str)
-{
-    struct tm *tmp;
-    tmp=localtime(&t);
-    strftime(str,100,"%Y-%m-%d %H:%M:%S",tmp);
+#include<ctime>
+#include<string>
+std::string timetostr(time_t t) {
+    char buffer[100];
+    struct tm *tmp = localtime(&t);
+    strftime(buffer, sizeof(buffer), "%Y-%m-%d %H:%M:%S", tmp);
+    return std::string(buffer);
 }
 time_t strtotime(char *str)
 {

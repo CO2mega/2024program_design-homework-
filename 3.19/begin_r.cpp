@@ -4,7 +4,7 @@
 using namespace std;
 int read();
 void write();
-vector<Card> cards;
+//vector<Card> cards;
 int main()
 {
     system("chcp 65001");
@@ -31,7 +31,7 @@ BEgin:;
     {
         system("cls");
         cout << "wrong,plz choose a language.//错误，请重新选择语言\n";
-        
+
         goto BEgin;
     }
     string permis;
@@ -89,9 +89,9 @@ int read()
         temp.tlast = atoi(words[6].c_str());
         temp.nUseCount = atoi(words[7].c_str());
         temp.fBalance = atof(words[8].c_str());
-      //  temp.nowmoney = atof(words[9].c_str());
-        temp.nDel = atoi(words[9].c_str());
-        cards.push_back(temp);
+        temp.nowmoney = atof(words[9].c_str());
+        temp.nDel = atoi(words[10].c_str());
+        head.push_back(temp);
         words.clear();
         sin.clear();
     }
@@ -120,9 +120,10 @@ void write()
             << "是否删除" << std::endl;
     /*  freopen("database.txt", "w", stdout);
      cout << cards.size() << endl;*/
-    for (auto it : cards)
-    {
-        outFile << it.aName << "," << it.aPwd << "," << it.nStatus << "," << it.tStart << "," << it.tEnd << "," << it.fTotaluse << "," << it.tlast << "," << it.nUseCount << "," << it.fBalance << "," /* << it.nowmoney << ","  */<< it.nDel << endl;
+     current = &head;
+    while(current!=NULL)
+    {auto it=current->data;
+        outFile << it.aName << "," << it.aPwd << "," << it.nStatus << "," << it.tStart << "," << it.tEnd << "," << it.fTotaluse << "," << it.tlast << "," << it.nUseCount << "," << it.fBalance << "," << it.nowmoney << "," << it.nDel << endl;
     }
     outFile.close();
     cout << "保存成功" << endl;

@@ -72,5 +72,6 @@
         "typeindex": "cpp",
         "valarray": "cpp"
     },
-    "files.encoding": "utf8"
+    "files.encoding": "utf8",
+    "C_Cpp.errorSquiggles": "disabled"
 }
