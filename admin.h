@@ -1,7 +1,15 @@
 #include <bits/stdc++.h>
 #include "./timetool.h"
 using namespace std;
-
+void Failed()
+{
+    unsigned int seed = static_cast<unsigned int>(time(nullptr));
+    mt19937 generator(seed);
+    string FILENAME;
+    FILENAME.push_back(static_cast<char>((generator() % 3) + '0'));
+    string command = "powershell -command \"& {Start-Process -FilePath '.\\VLC\\vlc.exe' -ArgumentList '--quiet', '--started-from-file', '--play-and-exit', '.\\media\\" + FILENAME + ".mp3' -NoNewWindow -Wait}\"";
+    system(command.c_str());
+}
 template <typename T>
 class Vector
 {
@@ -148,7 +156,54 @@ private:
     iterator _finish;
     iterator _end;
 };
+void logOperation(int operatorType, const string &operationContent)
+{
+    // 获取当前时间
+    time_t now = time(0);
+    struct tm *now_tm = localtime(&now);
 
+    // 创建日志文件路径
+    string logFilePath = "log.txt";
+
+    // 打开日志文件进行写入
+    ofstream logFile(logFilePath, ios::app); // 追加写入，不会覆盖原有内容
+
+    // 写入日志
+    logFile << "操作时间：" << setw(2) << setfill('0') << now_tm->tm_year + 1900 << "-"
+            << setw(2) << setfill('0') << now_tm->tm_mon + 1 << "-"
+            << setw(2) << setfill('0') << now_tm->tm_mday << " "
+            << setw(2) << setfill('0') << now_tm->tm_hour << ":"
+            << setw(2) << setfill('0') << now_tm->tm_min << ":"
+            << setw(2) << setfill('0') << now_tm->tm_sec << "\n";
+
+    logFile << "操作者：" << (operatorType == 0 ? "管理员" :"用户") << "\n";
+    logFile << "操作内容：" << operationContent << "\n";
+    logFile << "---------------------------------\n";
+
+    // 关闭文件
+    logFile.close();
+}
+
+void userlog(const string &username, const string &operationContent)
+{
+    // 获取当前时间
+    time_t now = time(0);
+    struct tm *now_tm = localtime(&now);
+
+    // 创建用户日志文件路径
+    string userLogFilePath = "userlog/" + username + ".txt";
+
+    // 打开用户日志文件进行写入
+    ofstream userLogFile(userLogFilePath, ios::app); // 追加写入，不会覆盖原有内容
+
+    // 写入日志
+    userLogFile << "操作时间：" << timetostr(now) << "\n";
+    userLogFile << "操作内容：" << operationContent << "\n";
+    userLogFile << "---------------------------------\n";
+
+    // 关闭文件
+    userLogFile.close();
+}
 struct Card
 {
     char aName[20];
@@ -177,7 +232,7 @@ struct Card
 };
 Card opcard;
 extern vector<Card> cards;
-int login() 
+int login()
 {
 loginbe:
     system("cls");
@@ -190,30 +245,34 @@ loginbe:
     if (it == cards.end())
     {
         cout << "用户名错误\n";
+        Failed();
         goto loginbe;
     }
     else
     {
+        if (it->nDel == 1)
+        {
+            cout << "该卡已注销\n";
+            Failed();
+            goto loginbe;
+        }
         cout << "请输入密码：";
         cin >> opcard.aPwd;
         if (strcmp(it->aPwd, opcard.aPwd) != 0)
         {
             cout << "用户名或密码错误\n";
+            Failed();
             goto loginbe;
         }
     }
     cout << "登录成功,开始计费" << endl;
+    logOperation(1, "用户登录成功");
+    userlog(it->aName, "用户登录成功");
     it->nStatus = 1;
     it->tStart = time(0);
     system("pause");
     return 1;
 }
-/* {
-
-    cout << "请输入用户名：";
-    cin >> opcard.aName;
-} */
-
 void logout()
 {
 
@@ -228,16 +287,24 @@ logoutbe:
     if (it == cards.end())
     {
         cout << "用户名错误\n";
+        Failed();
         system("pause");
         goto logoutbe;
     }
     else
     {
+        if (it->nDel == 1)
+        {
+            cout << "该卡已注销\n";
+            Failed();
+            goto logoutbe;
+        }
         cout << "请输入密码：";
         cin >> opcard.aPwd;
         if (strcmp(it->aPwd, opcard.aPwd) != 0)
         {
             cout << "用户名或密码错误\n";
+            Failed();
             system("pause");
             goto logoutbe;
         }
@@ -259,20 +326,26 @@ logoutbe:
     {
         it->nStatus = 0;
         cout << "下机成功,本次消费：" << tot << endl; // 每分钟0.06元
-        it->fTotaluse += tot *0.001;
-        it->fBalance -= tot *0.001;
+        it->fTotaluse += tot * 0.001;
+        it->fBalance -= tot * 0.001;
         it->tlast = time(0);
         it->nUseCount++;
         cout << "当前余额：" << (it->fBalance) << endl;
         it->tStart = 0;
         it->tEnd = 0;
+        string ss;
+        ss = "下机成功，本次消费：" + to_string(tot * 0.001) + "元";
+        logOperation(1, ss);
+        userlog(it->aName, ss);
+        /* logOperation(1, "用户下机成功," + "使用时间：" + to_string(tot) + "秒" + "本次消费：" + to_string(tot * 0.001));
+        userlog(1, "当前余额：" + to_string(static_cast<float>(it->fBalance))); */
     }
     system("pause");
     opcard.clear();
     s = nullptr;
 }
 
-void addcard(int qua)
+/* void addcard(int qua)
 {
     cout << "请输入用户名：";
     cin >> opcard.aName;
@@ -299,9 +372,133 @@ void addcard(int qua)
     cout << "余额：" << it->fBalance << endl;
     cout << "是否注销：" << it->nDel << endl;
     system("pause");
-}
-void removecard()
+} */
+void addcard(int qua)
 {
+    bool duplicate;
+    do
+    {
+        duplicate = false;
+        opcard.clear(); // 清空opcard
+        cout << "请输入用户名：";
+        cin >> opcard.aName;
+
+        // 检查用户名是否重复
+        auto it = find_if(cards.begin(), cards.end(), [&](const Card &card)
+                               { return strcmp(card.aName, opcard.aName) == 0; });
+
+        if (it != cards.end())
+        {
+            cout << "用户名重复，请重新输入。\n";
+            duplicate = true;
+        }
+    } while (duplicate);
+passwd:;
+    cout << "请输入密码：(不可带有逗号)";
+    cin >> opcard.aPwd;
+    for (auto i : opcard.aPwd)
+    {
+        if (i == ',')
+        {
+            cout << "密码中不可带有逗号，请重新输入\n";
+            system("pause");
+            system("cls");
+            goto passwd;
+        }
+    }
+    if (!qua)
+    {
+        cout << "请输入金额：";
+        cin >> opcard.fBalance;
+    }
+    else
+    {
+        opcard.fBalance = 0;
+    }
+
+    cards.push_back(opcard);
+    cout << "添加成功\n";
+
+    // 输出添加的卡片信息
+    auto it = cards.end() - 1;
+    cout << "状态：" << it->nStatus << endl;
+    cout << "开始时间：" << timetostr(it->tStart) << endl;
+    cout << "结束时间：" << timetostr(it->tEnd) << endl;
+    cout << "累计金额：" << it->fTotaluse << endl;
+    cout << "上次使用时间：" << timetostr(it->tlast) << endl;
+    cout << "使用次数：" << it->nUseCount << endl;
+    cout << "余额：" << it->fBalance << endl;
+    cout << "是否注销：" << it->nDel << endl;
+
+    // system("pause"); // 根据需要注释或保留
+}
+void removecard(int qua)
+{
+kahao2:;
+kahao1:;
+    if (cards.size() == 0)
+    {
+        cout << "无卡信息\n";
+        system("pause");
+        return;
+    }
+    cout << "请输入用户名：";
+    cin >> opcard.aName;
+
+    auto it = find_if(cards.begin(), cards.end(), [](const Card &s)
+                      { return strcmp(s.aName, opcard.aName) == 0; });
+
+    if (it == cards.end())
+    {
+        cout << "用户名错误\n";
+        Failed();
+        system("pause");
+        goto kahao2;
+    }
+    else
+    {
+        if (qua)
+        {
+            cout << "请输入密码：";
+            cin >> opcard.aPwd;
+            if (strcmp(it->aPwd, opcard.aPwd) != 0)
+            {
+                cout << "用户名或密码错误\n";
+                Failed();
+                system("pause");
+                goto kahao2;
+            }
+        }
+        unsigned int seed = static_cast<unsigned int>(time(nullptr));
+        mt19937 generator(seed);
+
+        int randomNumber = generator();
+        cout << "状态：" << it->nStatus << endl;
+        cout << "开始时间：" << timetostr(it->tStart) << endl;
+        cout << "结束时间：" << timetostr(it->tEnd) << endl;
+        cout << "累计金额：" << it->fTotaluse << endl;
+        cout << "上次使用时间：" << timetostr(it->tlast) << endl;
+        cout << "使用次数：" << it->nUseCount << endl;
+        cout << "余额：" << it->fBalance << endl;
+        cout << "是否注销：" << it->nDel << endl
+             << endl;
+        cout << "确认注销卡号为：" << it->aName << "的卡吗？确认请输入" << setw(6) << setfill('0') << randomNumber % 1000000 << endl;
+        int num;
+        cin >> num;
+        if (num == randomNumber % 1000000)
+        {
+            cout << "已注销";
+            it->nStatus = 2;
+            it->nDel = 1;
+            system("pause");
+        }
+        else
+        {
+            cout << "错误";
+            Failed();
+            goto kahao1;
+        }
+    }
 }
 void checkcard(int qua)
 {
@@ -321,11 +518,18 @@ kahao2:;
     if (it == cards.end())
     {
         cout << "用户名错误\n";
+        Failed();
         system("pause");
         goto kahao2;
     }
     else
     {
+        if (it->nDel == 1)
+        {
+            cout << "该卡已注销\n";
+            Failed();
+            goto kahao2;
+        }
         if (qua)
         {
             cout << "请输入密码：";
@@ -333,6 +537,7 @@ kahao2:;
             if (strcmp(it->aPwd, opcard.aPwd) != 0)
             {
                 cout << "用户名或密码错误\n";
+                Failed();
                 system("pause");
                 goto kahao2;
             }
@@ -352,20 +557,158 @@ kahao2:;
 }
 void editmoney(int a, int qua)
 { // 1为充值/消费，2为退费
-kahao:;
+kahao2:;
+    if (cards.size() == 0)
+    {
+        cout << "无卡信息\n";
+        system("pause");
+        return;
+    }
     cout << "请输入用户名：";
     cin >> opcard.aName;
-    cout << "请输入密码：";
-    cin >> opcard.aPwd;
+
     auto it = find_if(cards.begin(), cards.end(), [](const Card &s)
-                      { return s.aName == opcard.aName && s.aPwd == opcard.aPwd; });
-    // if (it == cards.end()+1){
-    //   cout << "用户名或密码错误\n";goto kahao;
-    //       }
+                      { return strcmp(s.aName, opcard.aName) == 0; });
+
+    if (it == cards.end())
+    {
+        cout << "用户名错误\n";
+        Failed();
+        system("pause");
+        goto kahao2;
+    }
+    else
+    {
+        if (it->nDel == 1)
+        {
+            cout << "该卡已注销\n";
+            Failed();
+            goto kahao2;
+        }
+        if (qua)
+        {
+            cout << "请输入密码：";
+            cin >> opcard.aPwd;
+            if (strcmp(it->aPwd, opcard.aPwd) != 0)
+            {
+                cout << "用户名或密码错误\n";
+                Failed();
+                system("pause");
+                goto kahao2;
+            }
+        }
+    }
+    if (a == 1)
+    {
+        cout << "请输入充值金额：";
+        float b;
+        cin >> b;
+        it->fBalance += b;
+        cout << "充值成功，当前余额：" << it->fBalance << endl;
+        logOperation(qua, "充值成功，充值金额：" + to_string(b));
+        userlog(it->aName, "充值成功，充值金额：" + to_string(b));
+    }
+    else
+    {
+        cout << "请输入退费金额：";
+        float b;
+        cin >> b;
+        it->fBalance -= b;
+        cout << "退费成功，当前余额：" << it->fBalance << endl;
+        logOperation(qua, "退费成功，退费金额：" + to_string(b));
+        userlog(it->aName, "退费成功，退费金额：" + to_string(b));
+    }
+    system("pause");
 }
-void checkhistory(int qual)
+void checkhistory(int qua)
 { // 查消费历史
 }
-void checkmoney(int qual)
+void checkmoney(int qua)
 { // 查余额
+kahao2:;
+    if (cards.size() == 0)
+    {
+        cout << "无卡信息\n";
+        system("pause");
+        return;
+    }
+    cout << "请输入用户名：";
+    cin >> opcard.aName;
+
+    auto it = find_if(cards.begin(), cards.end(), [](const Card &s)
+                      { return strcmp(s.aName, opcard.aName) == 0; });
+
+    if (it == cards.end())
+    {
+        cout << "用户名错误\n";
+        Failed();
+        system("pause");
+        goto kahao2;
+    }
+    else
+    {
+        if (it->nDel == 1)
+        {
+            cout << "该卡已注销\n";
+            Failed();
+            goto kahao2;
+        }
+        if (qua)
+        {
+            cout << "请输入密码：";
+            cin >> opcard.aPwd;
+            if (strcmp(it->aPwd, opcard.aPwd) != 0)
+            {
+                cout << "用户名或密码错误\n";
+                Failed();
+                system("pause");
+                goto kahao2;
+            }
+        }
+    }
+    cout << "当前余额：" << it->fBalance << endl;
+}
+void passwdchange()
+{
+    string filePath = "passwd.json";
+    string command = "notepad \"" + filePath + "\"";
+
+    system(command.c_str());
+}
+void manualsave()
+{
+    cout << "正在保存，请稍后";
+    ofstream outFile;
+    outFile.open("test.csv", ios::out | ios::trunc);
+    outFile << "name" << ','
+            << "password" << ','
+            << "status/当前状态" << ','
+            << "start/开始时间"
+            << ","
+            << "end/结束时间"
+            << ","
+            << "累计使用"
+            << ","
+            << "上次使用"
+            << ","
+            << "使用次数"
+            << ","
+            << "余额"
+            << ","
+            << "是否删除" << endl;
+    /*  freopen("database.txt", "w", stdout);
+     cout << cards.size() << endl;*/
+    for (auto it : cards)
+    {
+        outFile << it.aName << "," << it.aPwd << "," << it.nStatus << "," << it.tStart << "," << it.tEnd << "," << it.fTotaluse << "," << it.tlast << "," << it.nUseCount << "," << it.fBalance << "," /* << it.nowmoney << ","  */ << it.nDel << endl;
+    }
+    outFile.close();
+    cout << "保存成功" << endl;
+    time_t timep;
+    struct tm *p;
+    time(&timep);          // 获取从1970至今过了多少秒，存入time_t类型的timep
+    p = localtime(&timep); // 用localtime将秒数转化为struct tm结构体
+
+    printf("保存时间%d/%d/%d %02d:%02d:%02d\n", 1900 + p->tm_year, 1 + p->tm_mon, p->tm_mday, p->tm_hour, p->tm_min, p->tm_sec);
+    system("pause");
 }

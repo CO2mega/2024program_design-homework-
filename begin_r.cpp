@@ -8,21 +8,31 @@ vector<Card> cards;
 int main()
 {
     system("chcp 65001");
-    int i=read();
-    if (i== -1)
+    int i = read();
+    if (i == -1)
     {
         system("pause");
         return 0;
-    }cout<<"读取成功\n";
+    }
+    cout << "读取成功\n";
 
     string lang;
 BEgin:;
     cout << "请选择你的语言：\nEnglish\n简体中文\n";
     cin >> lang;
-    if (lang == "English" || lang == "english")
+    if (lang == "English" || lang == "english"||lang=="ENGLISH")
     {
-        std::cout << "not ready,choose another language,plz?\n";
-        goto BEgin;
+        std::cout << "haha, you 've been cheated,\n I havn't finished it yet, so choose another language,plz?\nI have a small video to show my apologize\ntype \"agree\" to enjoy it, or type \"any other text\" to choose another language\n";
+        string temp;
+        cin >> temp;
+        if (temp == "agree")
+        {
+            std::string command = "powershell -command \"& {Start-Process -FilePath '.\\VLC\\vlc.exe' -ArgumentList '--quiet', '--started-from-file', '--play-and-exit', '.\\media\\never.mp4' -NoNewWindow -Wait}\"";
+            system(command.c_str());
+        }
+        else
+        {
+        }
     }
     else if (lang == "简体中文" || lang == "chinese")
     {
@@ -31,7 +41,7 @@ BEgin:;
     {
         system("cls");
         cout << "wrong,plz choose a language.//错误，请重新选择语言\n";
-        
+
         goto BEgin;
     }
     string permis;
@@ -60,19 +70,18 @@ int read()
         cout << "Error: opening file fail,  check the file and re open this program." << endl;
         return -1;
     }
-    istringstream sin;         //将整行字符串line读入到字符串istringstream中
-    vector<string> words; //声明一个字符串向量
+    istringstream sin;    // 将整行字符串line读入到字符串istringstream中
+    vector<string> words; // 声明一个字符串向量
     string word;
 
-
-    getline(csv_data, line);//读取第一行标题
+    getline(csv_data, line); // 读取第一行标题
     /* for (int i = 0; i < n; i++)
     {
         Card temp;
         cin >> temp.aName >> temp.aPwd >> temp.nStatus >> temp.tStart >> temp.tEnd >> temp.fTotaluse >> temp.tlast >> temp.nUseCount >> temp.fBalance >> temp.nDel;
         cards.push_back(temp);
     } */
-    while(getline(csv_data, line)) //读取每行
+    while (getline(csv_data, line)) // 读取每行
     {
         sin.str(line);
         while (getline(sin, word, ','))
@@ -89,7 +98,7 @@ int read()
         temp.tlast = atoi(words[6].c_str());
         temp.nUseCount = atoi(words[7].c_str());
         temp.fBalance = atof(words[8].c_str());
-      //  temp.nowmoney = atof(words[9].c_str());
+        //  temp.nowmoney = atof(words[9].c_str());
         temp.nDel = atoi(words[9].c_str());
         cards.push_back(temp);
         words.clear();
@@ -122,7 +131,7 @@ void write()
      cout << cards.size() << endl;*/
     for (auto it : cards)
     {
-        outFile << it.aName << "," << it.aPwd << "," << it.nStatus << "," << it.tStart << "," << it.tEnd << "," << it.fTotaluse << "," << it.tlast << "," << it.nUseCount << "," << it.fBalance << "," /* << it.nowmoney << ","  */<< it.nDel << endl;
+        outFile << it.aName << "," << it.aPwd << "," << it.nStatus << "," << it.tStart << "," << it.tEnd << "," << it.fTotaluse << "," << it.tlast << "," << it.nUseCount << "," << it.fBalance << "," /* << it.nowmoney << ","  */ << it.nDel << endl;
     }
     outFile.close();
     cout << "保存成功" << endl;
