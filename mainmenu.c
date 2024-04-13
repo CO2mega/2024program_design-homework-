@@ -2,32 +2,6 @@
 #include "admin.h"
 using namespace std;
 vector<string> passwords;
-/*struct Card
-{
-    char aName[20];
-    char aPwd[20];
-    int nStatus; // 0未上机1上机  2已注销3失效（？）
-    time_t tStart, tEnd;
-    float fTotaluse; // 累计金额
-    time_t tlast;
-    int nUseCount;
-    float fBalance; // 当前余额
-    int nDel;
-    void clear()
-    {
-        memset(aName, 0, sizeof(aName));
-        memset(aPwd, 0, sizeof(aPwd));
-        nStatus = 0;
-        tStart = 0;
-        tEnd = 0;
-        fTotaluse = 0;
-        tlast = 0;
-        nUseCount = 0;
-        fBalance = 0;
-        nDel = 0;
-    }
-}; */
-
 void admin()
 { // 管理员菜单
 

@@ -176,7 +176,7 @@ void logOperation(int operatorType, const string &operationContent)
             << setw(2) << setfill('0') << now_tm->tm_min << ":"
             << setw(2) << setfill('0') << now_tm->tm_sec << "\n";
 
-    logFile << "操作者：" << (operatorType == 0 ? "管理员" :"用户") << "\n";
+    logFile << "操作者：" << (operatorType == 0 ? "管理员" : "用户") << "\n";
     logFile << "操作内容：" << operationContent << "\n";
     logFile << "---------------------------------\n";
 
@@ -256,6 +256,12 @@ loginbe:
             Failed();
             goto loginbe;
         }
+        if(it.nStatus==1)
+        {
+            cout << "该卡已上机\n";
+            Failed();
+            goto loginbe;
+        }
         cout << "请输入密码：";
         cin >> opcard.aPwd;
         if (strcmp(it->aPwd, opcard.aPwd) != 0)
@@ -309,6 +315,13 @@ logoutbe:
             goto logoutbe;
         }
     }
+    if (it->nStatus == 0)
+    {
+        cout << "该卡未上机\n";
+        Failed();
+        system("pause");
+        return;
+    }
     cout << "登录成功" << endl;
     char *s;
     cout << "当前时间是：" << timetostr(time(0))
@@ -345,34 +358,6 @@ logoutbe:
     s = nullptr;
 }
 
-/* void addcard(int qua)
-{
-    cout << "请输入用户名：";
-    cin >> opcard.aName;
-    cout << "请输入密码：";
-    cin >> opcard.aPwd;
-    if (!qua) // 用户默认为0元，管理员可以自定义
-    {
-        cout << "请输入金额：";
-        cin >> opcard.fBalance;
-    }
-    else
-        opcard.fBalance = 0;
-
-    cards.push_back(opcard);
-    cout << "添加成功\n";
-    auto it = cards.end() - 1;
-    // cout << "当前余额：" <<(double) it->fBalance << endl;
-    cout << "状态：" << it->nStatus << endl;
-    cout << "开始时间：" << timetostr(it->tStart) << endl;
-    cout << "结束时间：" << timetostr(it->tEnd) << endl;
-    cout << "累计金额：" << it->fTotaluse << endl;
-    cout << "上次使用时间：" << timetostr(it->tlast) << endl;
-    cout << "使用次数：" << it->nUseCount << endl;
-    cout << "余额：" << it->fBalance << endl;
-    cout << "是否注销：" << it->nDel << endl;
-    system("pause");
-} */
 void addcard(int qua)
 {
     bool duplicate;
@@ -385,7 +370,7 @@ void addcard(int qua)
 
         // 检查用户名是否重复
         auto it = find_if(cards.begin(), cards.end(), [&](const Card &card)
-                               { return strcmp(card.aName, opcard.aName) == 0; });
+                          { return strcmp(card.aName, opcard.aName) == 0; });
 
         if (it != cards.end())
         {
@@ -613,10 +598,19 @@ kahao2:;
         cout << "请输入退费金额：";
         float b;
         cin >> b;
-        it->fBalance -= b;
-        cout << "退费成功，当前余额：" << it->fBalance << endl;
-        logOperation(qua, "退费成功，退费金额：" + to_string(b));
-        userlog(it->aName, "退费成功，退费金额：" + to_string(b));
+        if (it->fBalance > b)
+        {
+            it->fBalance -= b;
+            cout << "退费成功，当前余额：" << it->fBalance << endl;
+            logOperation(qua, "退费成功，退费金额：" + to_string(b));
+            userlog(it->aName, "退费成功，退费金额：" + to_string(b));
+        }
+        else
+        {
+            cout << "余额不足，退费失败" << endl;
+            logOperation(qua, "余额不足，退费失败");
+            userlog(it->aName, "余额不足，退费失败");
+        }
     }
     system("pause");
 }

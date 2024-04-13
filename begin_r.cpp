@@ -75,12 +75,7 @@ int read()
     string word;
 
     getline(csv_data, line); // 读取第一行标题
-    /* for (int i = 0; i < n; i++)
-    {
-        Card temp;
-        cin >> temp.aName >> temp.aPwd >> temp.nStatus >> temp.tStart >> temp.tEnd >> temp.fTotaluse >> temp.tlast >> temp.nUseCount >> temp.fBalance >> temp.nDel;
-        cards.push_back(temp);
-    } */
+
     while (getline(csv_data, line)) // 读取每行
     {
         sin.str(line);
