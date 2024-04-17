@@ -1,6 +1,7 @@
 #include <bits/stdc++.h>
-#include "mainmenu.c"
+
 #include <fstream>
+#include "mainmenu.hpp"
 using namespace std;
 int read();
 void write();
@@ -8,6 +9,8 @@ vector<Card> cards;
 int main()
 {
     system("chcp 65001");
+    system("cls");
+    cout << "读取中...\n";
     int i = read();
     if (i == -1)
     {
@@ -62,7 +65,7 @@ int read()
 
     printf("当前时间%d/%d/%d %02d:%02d:%02d\n", 1900 + p->tm_year, 1 + p->tm_mon, p->tm_mday, p->tm_hour, p->tm_min, p->tm_sec);
 
-    ifstream csv_data("test.csv", ios::in);
+    ifstream csv_data("..//test.csv", ios::in);
     string line;
 
     if (!csv_data.is_open())
@@ -105,7 +108,7 @@ void write()
 {
     cout << "正在保存，请稍后";
     std::ofstream outFile;
-    outFile.open("test.csv", std::ios::out | std::ios::trunc);
+    outFile.open("..//test.csv", std::ios::out | std::ios::trunc);
     outFile << "name" << ','
             << "password" << ','
             << "status/当前状态" << ','

@@ -1,6 +1,6 @@
 #include <bits/stdc++.h>
 #include "admin.h"
-using namespace std;
+
 vector<string> passwords;
 void admin()
 { // 管理员菜单
@@ -11,7 +11,7 @@ void admin()
         system("cls");
         // 查卡是什么？查谁拿哪张卡吗？
 
-        cout << "---------------------------\n1.添加卡\n2.查询卡\n3.充值\n4.查询消费记录\n5.退费\n6.查询统计\n7.注销卡\n8.修改密码\n9.手动保存\n0.退出\n---------------------------\n";
+        cout << "---------------------------\n1.添加卡\n2.查询卡\n3.充值\n4.查询消费记录\n5.退费\n6.查询统计\n7.注销卡\n8.修改管理密码\n9.修改用户密码\nx.手动保存\n0.退出\n---------------------------\n";
         cout << "请输入你选择的序号：\n";
         cin >> choice;
         if (choice.length() > 1)
@@ -49,6 +49,9 @@ void admin()
             passwdchange();
             break;
         case '9':
+            usrpasswd();
+            break;
+        case 'x':
             manualsave();
             break;
         case '0':
@@ -99,7 +102,7 @@ void user()
             checkhistory(1);
             break;
         case '6':
-
+            checkhistory(1);
             break;
         case '7':
             removecard(1);

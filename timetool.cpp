@@ -1,6 +1,6 @@
-#include<iostream>
 #include<ctime>
 #include<string>
+using namespace std;
 std::string timetostr(time_t t) {
     char buffer[100];
     struct tm *tmp = localtime(&t);
