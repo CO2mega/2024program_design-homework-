@@ -1,3 +1,4 @@
+用clion里的cmake编译的，开箱即用
 
 begin_r.cpp 为入口源程序 
 ~~readme是说明文档（废话）~~
